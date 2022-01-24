@@ -13,7 +13,7 @@ CREATE TABLE jobPosition(
 -- Employee TABLE
 CREATE TABLE employee(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    fname VARCHAR(45) NOT NULL,
+    fName VARCHAR(45) NOT NULL,
     lName VARCHAR(45) NOT NULL,
     email VARCHAR(100) NOT NULL,
     pwd VARCHAR(100) NOT NULL,
@@ -128,3 +128,8 @@ CREATE TABLE userAudit(
     FOREIGN KEY(employeeID)
     REFERENCES employee(id)
 );
+
+-- Insert into jobPosition table
+INSERT INTO jobPosition(position, pay)
+    VALUES
+        ('IT Manager', 40), ('Senior IT', 32), ('Junior IT', 25), ('IT', 19);

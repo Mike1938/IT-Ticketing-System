@@ -1,5 +1,5 @@
 <?php
-
+$fName = "";
 // ? Connecting to the database
 require_once '../dbConection.php';
 $conn = new mysqli($hn,$un,$pw, $db);
@@ -13,37 +13,85 @@ function test_input($data){
     $data = htmlspecialchars($data);
     return $data;
 }
-// TODO make better validations
+// ? This will validate most of the form input from client and employee signup forms
+function formValidate($valArr){
+    $sendInfo = array();
+    $sendInfo['validate'] = true;
+    $sendInfo['results'] = array();
+     // ? Checking form variables
+    if(empty($valArr['fName'])){
+        $sendInfo['fNameErr'] = "Cannot be left blank...";
+        $sendInfo['validate'] = false;
+    }else{
+        $fName = test_input( $_POST['fName']);
+        $sendInfo['results']['fName'] = $fName;
+        if(!preg_match("/^[a-zA-Z ]*$/", $fName)){
+            $sendInfo['fNameErr'] = 'Only Letters...';
+            $sendInfo['validate'] = false;
+        }
+    }
+    if(empty($valArr['lName'])){
+        $sendInfo['lNameErr'] = "Last Name cannot be left blank...";
+        $sendInfo['validate'] = false;
+    }else{
+        $lName = test_input($_POST['lName']);
+        $sendInfo['results']['lName'] = $lName;
+        if(!preg_match("/^[a-zA-Z ]*$/", $lName)){
+            $sendInfo['lNameErr'] = 'Only Letters...';
+            $sendInfo['validate'] = false;
+        }
+    }
+    if(empty($valArr['pwd'])){
+        $sendInfo['pwdErr'] = "Password cannot be left blank...";
+        $sendInfo['validate'] = false;
+    }else{
+        $pwd = test_input($_POST['pwd']);
+        if(strlen($pwd) < 6){
+            $sendInfo['validate'] = false;
+            $sendInfo['pwdErr'] = "Password must be 6 characters or more...";
+        }else{
+            $sendInfo['results']['hashPass'] = password_hash($pwd, PASSWORD_DEFAULT);
+        }
+    }
+    if(empty($valArr['email'])){
+        $sendInfo['emailErr'] = "Email cannot be left blank...";
+        $sendInfo['validate'] = false;
+    }else{
+        $email = test_input($_POST['email']);
+        $sendInfo['results']['email'] = $email;
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $sendInfo['validate'] = false;
+            $sendInfo['emailErr'] = 'Email not formatted correctly...';
+        }
+    }
+    if(empty($valArr['phone'])){
+        $sendInfo['phoneErr'] = "Phone Number cannot be left blank...";
+        $sendInfo['validate'] = false;
+    }else{
+        $phone = test_input($_POST['phone']);
+        $sendInfo['results']['phone'] = $phone;
+        if(!preg_match('/^[0-9]*$/', $phone)){
+            $sendInfo['phoneErr'] = 'Only numbers...';
+            $sendInfo['validate'] = false;
+        }
+    }
+    return $sendInfo;
+}
+
+
 if(isset($_POST['clientSign'])){
 
     $validation = true;
     // ? Form Variables
-    $fName = $lName = $compName = $email = $pwd = $phone = "";
+    $compName = "";
 
     // ? Error Variables
-    $fNameErr = $lNameErr = $compNameErr = $emailErr = $pwdErr = $phoneErr = "";
+    $compNameErr = "";
 
-    // ? Checking form variables
-    if(empty($_POST['fName'])){
-        $fNameErr = "Cannot be left blank...";
-        $validation = false;
-    }else{
-        $fName = test_input( $_POST['fName']);
-        if(!preg_match("/^[a-zA-Z ]*$/", $fName)){
-            $fNameErr = 'Only Letters...';
-            $validation = false;
-        }
-    }
-    if(empty($_POST['lName'])){
-        $lNameErr = "Last Name cannot be left blank...";
-        $validation = false;
-    }else{
-        $lName = test_input($_POST['lName']);
-        if(!preg_match("/^[a-zA-Z ]*$/", $lName)){
-            $lNameErr = 'Only Letters...';
-            $validation = false;
-        }
-    }
+    $checkVal = array("fName"=> $_POST['fName'],'lName' => $_POST['lName'],'pwd' => $_POST['pwd'], 'email'=> $_POST['email'], 'phone'=> $_POST['phone']);
+    $valResults = formValidate($checkVal);
+    $validation = $valResults['validate'];
+    
     if(empty($_POST['compName'])){
         $compNameErr = "Company name cannot be left blank...";
         $validation = false;
@@ -54,54 +102,24 @@ if(isset($_POST['clientSign'])){
             $validation = "Company Name must be 3 characters or more...";
         }
     }
-    if(empty($_POST['pwd'])){
-        $pwdErr = "Password cannot be left blank...";
-        $validation = false;
-    }else{
-        $pwd = test_input($pwd);
-        if(strlen($pwd) < 6){
-            $validation = false;
-            $pwdErr = "Password must be 6 characters or more...";
-        }
-        $hashPass = password_hash($pwd, PASSWORD_DEFAULT);
-    }
-    if(empty($_POST['email'])){
-        $emailErr = "Email cannot be left blank...";
-        $validation = false;
-    }else{
-        $email = test_input($_POST['email']);
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $validation = false;
-            $emailErr = 'Email not formatted correctly...';
-        }
-    }
-    if(empty($_POST['phone'])){
-        $phoneErr = "Phone Number cannot be left blank...";
-        $validation = false;
-    }else{
-        $phone = test_input($phone);
-        if(!preg_match('/^[0-9]*$/', $phone)){
-            $phoneErr = 'Only numbers...';
-            $validation = false;
-        }
-    }
+
     if($validation){
         //* Creating the query to insert to the database
         $query = $conn->prepare("INSERT INTO user(fName, lName, companyName, email, pwd, phoneNumber) Values(?,?,?,?,?,?)");
-        $query->bind_param('ssssss',$fName, $lName, $compName, $email, $hashPass, $phone);
+        $query->bind_param('ssssss',$valResults['results']['fName'], $valResults['results']['lName'], $compName, $valResults['results']['email'], $valResults['results']['hashPass'], $valResults['results']['phone']);
         $urlLocation = "http://localhost/finalProyect/account/clientLogin.php";
     }else{
         // TODO Work on sending back the error on validation
         $goBackUrl = "http://localhost/finalProyect/account/clientSignup.php";
         $validateGoBack = "http://localhost/finalProyect/account/clientSignup.php";
-        if($fNameErr){
-            $goBackUrl = "{$goBackUrl}?fName={$fNameErr}";
+        if($valResults['fNameErr']){
+            $goBackUrl = "{$goBackUrl}?fName={$valResults['fNameErr']}";
         }
-        if($lNameErr){
+        if($valResults['lNameErr']){
             if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&lName={$lNameErr}";
+                $goBackUrl = "{$goBackUrl}&lName={$valResults['lNameErr']}";
             }else{
-                $goBackUrl = "{$goBackUrl}?lName={$lNameErr}";
+                $goBackUrl = "{$goBackUrl}?lName={$valResults['lNameErr']}";
             }
         }
         if($compNameErr){
@@ -111,32 +129,44 @@ if(isset($_POST['clientSign'])){
                 $goBackUrl = "{$goBackUrl}?compName={$compNameErr}";
             }        
         }
-        if($pwdErr){
+        if($valResults['pwdErr']){
             if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&pwd={$pwdErr}";
+                $goBackUrl = "{$goBackUrl}&pwd={$valResults['pwdErr']}";
             }else{
-                $goBackUrl = "{$goBackUrl}?pwd={$pwdErr}";
+                $goBackUrl = "{$goBackUrl}?pwd={$valResults['pwdErr']}";
             }
         }
-        if($emailErr){
+        if($valResults['emailErr']){
             if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&email={$emailErr}";
+                $goBackUrl = "{$goBackUrl}&email={$valResults['emailErr']}";
             }else{
-                $goBackUrl = "{$goBackUrl}?email={$emailErr}";
+                $goBackUrl = "{$goBackUrl}?email={$valResults['emailErr']}";
             }  
         }
-        if($phoneErr){
+        if($valResults['phoneErr']){
             if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&phone={$phoneErr}";
+                $goBackUrl = "{$goBackUrl}&phone={$valResults['phoneErr']}";
             }else{
-                $goBackUrl = "{$goBackUrl}?phone={$phoneErr}";
+                $goBackUrl = "{$goBackUrl}?phone={$valResults['fNameErr']}";
             }  
         }
         header("location: {$goBackUrl}");
     }
 }
 elseif(isset($_POST['empSign'])){
-    // function to add new employee
+    $validation = true;
+
+     // ? Checking form variables
+    $checkVal = array("fName"=> $_POST['fName'],'lName' => $_POST['lName'],'pass' => $_POST['pwd'], 'email'=> $_POST['email'], 'phone'=> $_POST['phone']);
+    $valResults = formValidate($checkVal);
+    $validation = $valResults['validate'];
+
+    if($validation){
+        $query = $conn->prepare("INSERT INTO employee(fName, lName, email, pwd, phoneNumber, jobPosition) VALUES (?,?,?,?,?,?)");
+    }
+
+    // TODO WORK WITH ERROR HANDLING WHEN FORM DATA ISNT OK
+
 }
 else{
     header("location: http://localhost/finalProyect/index.php");
