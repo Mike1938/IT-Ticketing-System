@@ -77,7 +77,44 @@ function formValidate($valArr){
     }
     return $sendInfo;
 }
-
+// ? function that depending on form errors it will sed the errors in the url
+function sendErr($ErrArr, $url){
+    $goBackUrl = $url;
+    $validateGoBack = $url;
+    
+    if($ErrArr['fNameErr']){
+        $goBackUrl = "{$goBackUrl}?fName={$ErrArr['fNameErr']}";
+    }
+    if($ErrArr['lNameErr']){
+        if($goBackUrl != $validateGoBack){
+            $goBackUrl = "{$goBackUrl}&lName={$ErrArr['lNameErr']}";
+        }else{
+            $goBackUrl = "{$goBackUrl}?lName={$ErrArr['lNameErr']}";
+        }
+    }
+    if($ErrArr['pwdErr']){
+        if($goBackUrl != $validateGoBack){
+            $goBackUrl = "{$goBackUrl}&pwd={$ErrArr['pwdErr']}";
+        }else{
+            $goBackUrl = "{$goBackUrl}?pwd={$ErrArr['pwdErr']}";
+        }
+    }
+    if($ErrArr['emailErr']){
+        if($goBackUrl != $validateGoBack){
+            $goBackUrl = "{$goBackUrl}&email={$ErrArr['emailErr']}";
+        }else{
+            $goBackUrl = "{$goBackUrl}?email={$ErrArr['emailErr']}";
+        }  
+    }
+    if($ErrArr['phoneErr']){
+        if($goBackUrl != $validateGoBack){
+            $goBackUrl = "{$goBackUrl}&phone={$ErrArr['phoneErr']}";
+        }else{
+            $goBackUrl = "{$goBackUrl}?phone={$ErrArr['fNameErr']}";
+        }  
+    }
+    return $goBackUrl;
+}
 
 if(isset($_POST['clientSign'])){
 
@@ -87,11 +124,12 @@ if(isset($_POST['clientSign'])){
 
     // ? Error Variables
     $compNameErr = "";
-
+    // ? Varibles to send function for validation
     $checkVal = array("fName"=> $_POST['fName'],'lName' => $_POST['lName'],'pwd' => $_POST['pwd'], 'email'=> $_POST['email'], 'phone'=> $_POST['phone']);
     $valResults = formValidate($checkVal);
     $validation = $valResults['validate'];
     
+    // ? validate company name
     if(empty($_POST['compName'])){
         $compNameErr = "Company name cannot be left blank...";
         $validation = false;
@@ -103,70 +141,54 @@ if(isset($_POST['clientSign'])){
         }
     }
 
+// * if true it will start to form the query to insert to client if not it will send the client back to the same page with errors in the url
     if($validation){
         //* Creating the query to insert to the database
         $query = $conn->prepare("INSERT INTO user(fName, lName, companyName, email, pwd, phoneNumber) Values(?,?,?,?,?,?)");
         $query->bind_param('ssssss',$valResults['results']['fName'], $valResults['results']['lName'], $compName, $valResults['results']['email'], $valResults['results']['hashPass'], $valResults['results']['phone']);
         $urlLocation = "http://localhost/finalProyect/account/clientLogin.php";
     }else{
-        // TODO Work on sending back the error on validation
-        $goBackUrl = "http://localhost/finalProyect/account/clientSignup.php";
-        $validateGoBack = "http://localhost/finalProyect/account/clientSignup.php";
-        if($valResults['fNameErr']){
-            $goBackUrl = "{$goBackUrl}?fName={$valResults['fNameErr']}";
-        }
-        if($valResults['lNameErr']){
-            if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&lName={$valResults['lNameErr']}";
-            }else{
-                $goBackUrl = "{$goBackUrl}?lName={$valResults['lNameErr']}";
-            }
-        }
+        $url = "http://localhost/finalProyect/account/clientSignup.php";
+        $resultUrl = sendErr($valResults, $url);
+       
         if($compNameErr){
-            if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&compName={$compNameErr}";
+            if($resultUrl != $url){
+                $resultUrl = "{$resultUrl}&compName={$compNameErr}";
             }else{
-                $goBackUrl = "{$goBackUrl}?compName={$compNameErr}";
+                $resultUrl = "{$resultUrl}?compName={$compNameErr}";
             }        
         }
-        if($valResults['pwdErr']){
-            if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&pwd={$valResults['pwdErr']}";
-            }else{
-                $goBackUrl = "{$goBackUrl}?pwd={$valResults['pwdErr']}";
-            }
-        }
-        if($valResults['emailErr']){
-            if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&email={$valResults['emailErr']}";
-            }else{
-                $goBackUrl = "{$goBackUrl}?email={$valResults['emailErr']}";
-            }  
-        }
-        if($valResults['phoneErr']){
-            if($goBackUrl != $validateGoBack){
-                $goBackUrl = "{$goBackUrl}&phone={$valResults['phoneErr']}";
-            }else{
-                $goBackUrl = "{$goBackUrl}?phone={$valResults['fNameErr']}";
-            }  
-        }
-        header("location: {$goBackUrl}");
+        header("location: {$resultUrl}");
     }
 }
+
+// * Section of the employee form validation
 elseif(isset($_POST['empSign'])){
     $validation = true;
-
+    $position = "";
+    $positionErr = "";
      // ? Checking form variables
-    $checkVal = array("fName"=> $_POST['fName'],'lName' => $_POST['lName'],'pass' => $_POST['pwd'], 'email'=> $_POST['email'], 'phone'=> $_POST['phone']);
+    $checkVal = array("fName"=> $_POST['fName'],'lName' => $_POST['lName'],'pwd' => $_POST['pwd'], 'email'=> $_POST['email'], 'phone'=> $_POST['phone']);
     $valResults = formValidate($checkVal);
     $validation = $valResults['validate'];
 
-    if($validation){
-        $query = $conn->prepare("INSERT INTO employee(fName, lName, email, pwd, phoneNumber, jobPosition) VALUES (?,?,?,?,?,?)");
+    if(empty($_POST['position'])){
+        $validation = false;
+        $positionErr = "Position cannot be left blank";
+    }else{
+        $position = $_POST['position'];
+        $valResults['positionErr'] = $positionErr;
     }
 
-    // TODO WORK WITH ERROR HANDLING WHEN FORM DATA ISNT OK
-
+    if($validation){
+        $query = $conn->prepare("INSERT INTO employee(fName, lName, email, pwd, phoneNumber, jobPosition) VALUES (?,?,?,?,?,?)");
+        $query->bind_param('ssssss', $valResults['results']['fName'], $valResults['results']['lName'], $valResults['results']['email'], $valResults['results']['hashPass'],$valResults['results']['phone'], $position);
+        $urlLocation = "http://localhost/finalProyect/account/empLogin.php";
+    }else{
+        $url = "http://localhost/finalProyect/account/empSignup.php";
+        $url = sendErr($valResults, $url);
+        header("location: {$url}");
+    }
 }
 else{
     header("location: http://localhost/finalProyect/index.php");

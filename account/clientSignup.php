@@ -41,7 +41,7 @@
                 <input class="styleInput" id="email" name="email" type="email" placeholder="Email">
                 <label for="phone">Phone Number <span class="error"><?php echo $phoneErr?></span></label>
                 <input class="styleInput" id="phone" name="phone" type="text" placeholder="Phone Number">
-                <label for="pwd">PassWord <span class="error"><?php echo $pwdErr?></span></label>
+                <label for="pwd">Password <span class="error"><?php echo $pwdErr?></span></label>
                 <input class="styleInput" id="pwd" name="pwd" type="password" placeholder="Password">
                 <button name="clientSign">Register</button>
             </form>
