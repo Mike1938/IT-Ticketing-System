@@ -8,11 +8,12 @@
 </head>
 <body>
     <section>
-        <form action="./includes/loginFuncs.php">
+        <form action="../includes/loginFuncs.php" method="POST">
             <label for="id">ID</label>
             <input name="id" id="id" type="text" placeholder="ID">
             <label for="pwd">Password</label>
             <input name="pwd" id="pwd" type="password" placeholder="password">
+            <button name="clientLogin">Log in</button>
         </form>
     </section>
 </body>

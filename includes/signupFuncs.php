@@ -192,6 +192,7 @@ elseif(isset($_POST['empSign'])){
 }
 else{
     header("location: http://localhost/finalProyect/index.php");
+    exit();
 }
 
 // ? Executing the query to the database with the client or employee information
