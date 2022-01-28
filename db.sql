@@ -129,6 +129,16 @@ CREATE TABLE userAudit(
     REFERENCES employee(id)
 );
 
+-- employee audit log on
+CREATE TABLE empLogInOut(
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    empId INT NOT NULL,
+    logEvent VARCHAR(20) NOT NULL,
+    logOnTime TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY(empID)
+    REFERENCES employee(id)
+);
+
 -- Insert into jobPosition table
 INSERT INTO jobPosition(position, pay)
     VALUES

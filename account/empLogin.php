@@ -7,7 +7,13 @@
         <title>Employee Log in</title>
     </head>
     <body>
+        <form action="../includes/loginFuncs.php" method="POST">
+            <label for="id">Employee Id</label>
+            <input id="id" name="id" type="text" placeholder="Employee ID">
+            <label for="pwd">Password</label>
+            <input id="password" name="pwd" type="password" placeholder="Password">
+            <button name="empLogin">Log in</button>
+        </form>
         
-        <button name="empLogin">Log in</button>
     </body>
 </html>
