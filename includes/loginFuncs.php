@@ -54,7 +54,7 @@ function checkUser($conn,$uid,$url, $q){
 }
 
 // ? Function that will log in the user if the password match
-function loginUser($conn, $uid, $pass, $url, $q){
+function loginUser($conn, $uid, $pass, $url, $q, $userType){
     $user = checkUser($conn, $uid,$url, $q);
     if($user === false){
         header("location: {$url}?userErr= User could not be found");
@@ -64,8 +64,14 @@ function loginUser($conn, $uid, $pass, $url, $q){
     $ValidatePass = password_verify($pass, $hashPass);
     if($ValidatePass){
         session_start();
-        $_SESSION['fName'] = $user['fName'];
-        $_SESSION['uid'] = $user['id'];
+        if($userType === 'emp'){
+            $_SESSION['fName'] = $user['fName'];
+            $_SESSION['empId'] = $user['id'];
+        }
+        elseif($userType === "cli"){
+            $_SESSION['fName'] = $user['fName'];
+            $_SESSION['cliId'] = $user['id'];
+        }
         return true;
     }else{
         $conn->close();
@@ -82,7 +88,7 @@ if(isset($_POST['empLogin'])){
     // ? Gonna audit the employee when they log in
     if($results['validation']){
         
-        $confirmation = loginUser($conn,$results['id'], $results['pwd'], $modifiedUrl, $query);
+        $confirmation = loginUser($conn,$results['id'], $results['pwd'], $modifiedUrl, $query, "emp");
         if($confirmation){
             $query = "INSERT INTO empLogInOut(empId, logEvent) VALUES (?,?)";
             $stmt = mysqli_stmt_init($conn);
@@ -118,7 +124,7 @@ elseif(isset($_POST['clientLogin'])){
     $query = "SELECT id, fName, lName, pwd FROM user WHERE id = ?";
     
     if($results['validation']){
-        $confirmation = loginUser($conn,$results['id'], $results['pwd'], $modifiedUrl, $query);
+        $confirmation = loginUser($conn,$results['id'], $results['pwd'], $modifiedUrl, $query, "cli");
         if($confirmation){
             $conn->close();
             header("location: http://localhost/finalProyect/ticketSystem/ticketDashboard.php");

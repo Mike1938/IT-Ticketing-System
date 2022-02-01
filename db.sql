@@ -87,7 +87,7 @@ CREATE TABLE ticketStatus(
     tStatus VARCHAR(15) NOT NULL DEFAULT "Active",
     tStart TIMESTAMP NOT NULL DEFAULT NOW(),
     tEnd TIMESTAMP,
-    solution VARCHAR(250) NOT NULL,
+    solution VARCHAR(250),
     FOREIGN KEY(ticketID)
     REFERENCES ticket(id),
     FOREIGN KEY(employeeID)
