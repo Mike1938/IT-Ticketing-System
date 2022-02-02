@@ -74,6 +74,7 @@ CREATE TABLE ticket(
     equipmentID INT NOT NULL,
     problem VARCHAR(250) NOT NULL,
     ticketDate TIMESTAMP NOT NULL DEFAULT NOW(),
+    tStatus VARCHAR(15) NOT NULL DEFAULT "Pending",
     FOREIGN KEY(userID)
     REFERENCES user(id),
     FOREIGN KEY(equipmentID)
@@ -84,7 +85,6 @@ CREATE TABLE ticket(
 CREATE TABLE ticketStatus(
     ticketID INT NOT NULL,
     employeeID INT NOT NULL,
-    tStatus VARCHAR(15) NOT NULL DEFAULT "Active",
     tStart TIMESTAMP NOT NULL DEFAULT NOW(),
     tEnd TIMESTAMP,
     solution VARCHAR(250),
@@ -143,3 +143,41 @@ CREATE TABLE empLogInOut(
 INSERT INTO jobPosition(position, pay)
     VALUES
         ('IT Manager', 40), ('Senior IT', 32), ('Junior IT', 25), ('IT', 19);
+
+-- Creating view for clients computers
+CREATE VIEW clientProducts
+    AS
+        SELECT
+            invoice.userID as "user",
+            invoiceDetails.equipmentID as "equipId",
+            product.pName as "ProductName"
+        FROM invoiceDetails
+        INNER JOIN invoice
+        ON invoiceDetails.invoiceID = invoice.id
+        INNER JOIN product
+        ON invoiceDetails.productID = product.id;
+
+CREATE VIEW tickets
+    AS
+        SELECT
+            ticket.id as "id",
+            ticket.userID as "userId",
+            ticket.equipmentID as "equipId",
+            ticket.problem as "problem",
+            ticket.ticketDate as "ticketDate",
+            CASE 
+                WHEN ticketStatus.employeeID = NULL THEN 'Not Assigned'
+            END AS 'emp',
+            CASE
+                WHEN ticketStatus.tStatus = NULL THEN 'Pending'
+                ELSE 'Active'
+            END AS tStatus,
+            CASE
+                WHEN ticketStatus.tStatus = 'Active' THEN 'In Progress'
+                WHEN ticketStatus.tStatus = 'Completed' THEN 'Finish'
+                ELSE 'Not Started'
+            END AS 'tEnd',
+            ticketStatus.solution as "Solution"
+            FROM ticket
+            INNER JOIN ticketStatus
+            on ticket.id = ticketStatus.ticketID;
