@@ -104,11 +104,16 @@
                     <p class="title">Open Tickets</p>
                     <div id="ticketList">
                         <?php
-                            $query = "SELECT id, equipmentID, problem, ticketDate, tStatus FROM ticket";
-                            $result = $conn->query($query);
-                            if(!$result){
-                                die("There was an error");
+                            // ? This will show the current open tickets
+                            $query = "SELECT id, equipmentID, problem, ticketDate, tStatus FROM ticket WHERE userID =?";
+                            $stmt = mysqli_stmt_init($conn);
+                            if(!mysqli_stmt_prepare($stmt, $query)){
+                                header("location: http://localhost/finalProyect/ticketSystem/ticketDashboard.php");
+                                exit();
                             }
+                            mysqli_stmt_bind_param($stmt, "i", $uid);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
                             if($result->num_rows > 0){
                                 while($row = $result->fetch_assoc()){
                                     echo 

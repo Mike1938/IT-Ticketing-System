@@ -6,6 +6,7 @@ if($conn->connect_error) die("There was a fatal error");
 $urlLocation = "";
 
 $clientUrl = "http://localhost/finalProyect/account/clientLogin.php";
+$empUrl = "http://localhost/finalProyect/account/empLogin.php";
 
 // ? Function to clean inputs
 function test_input($data){
@@ -105,13 +106,13 @@ if(isset($_POST['empLogin'])){
 
     }else{
         if($results['idErr']){
-            $modifiedUrl = "{$clientUrl}?idErr={$results['idErr']}";
+            $modifiedUrl = "{$empUrl}?userErr={$results['idErr']}";
         }
         if($results['pwdErr']){
             if($modifiedUrl != $clientUrl){
-                $modifiedUrl = "{$clientUrl}?pwdErr={$results['pwdErr']}";
+                $modifiedUrl = "{$modifiedUrl}&pwdErr={$results['pwdErr']}";
             }else{
-                $modifiedUrl = "{$clientUrl}&pwdErr={$results['pwdErr']}";
+                $modifiedUrl = "{$empUrl}?pwdErr={$results['pwdErr']}";
             }
         }
         header("location: {$modifiedUrl}");
@@ -132,13 +133,13 @@ elseif(isset($_POST['clientLogin'])){
 
     }else{
         if($results['idErr']){
-            $modifiedUrl = "{$clientUrl}?idErr={$results['idErr']}";
+            $modifiedUrl = "{$clientUrl}?userErr={$results['idErr']}";
         }
         if($results['pwdErr']){
             if($modifiedUrl != $clientUrl){
-                $modifiedUrl = "{$clientUrl}?pwdErr={$results['pwdErr']}";
+                $modifiedUrl = "{$modifiedUrl}&pwdErr={$results['pwdErr']}";
             }else{
-                $modifiedUrl = "{$clientUrl}&pwdErr={$results['pwdErr']}";
+                $modifiedUrl = "{$clientUrl}?pwdErr={$results['pwdErr']}";
             }
         }
         header("location: {$modifiedUrl}");
