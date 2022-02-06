@@ -3,12 +3,12 @@ body, html{
     height: 100%;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #F1F0EA;
+    background-color: #f7f1e3;
 }
 
 nav{
     width: 100%;
-    background-color: #5c6999;
+    background-color: #227093;
     height: 40px;
     display: flex;
     justify-content: space-between;
@@ -25,7 +25,7 @@ nav a{
     transition: all 300ms ease-in;
 }
 nav a:hover{
-    background-color: #3e53a0;
+    background-color: #195672;
 }
 
 /*? ticketDashboard styles */
@@ -132,7 +132,7 @@ nav a:hover{
     color: white;
     cursor: pointer;
 }
-/* * Client registration styles */
+/* * Client and employee registration styles */
 .formSect{
     margin-top: 100px;
     display: flex;
@@ -192,7 +192,7 @@ nav a:hover{
 #regisFrm button:hover{
     background-color: #2d418a;
 }
-/* ? Client login page */
+/* ? Client and emp login page styles */
 #cliLogFrm, #empLogFrm{
     width: 50%;
     margin: 0 auto;
@@ -241,6 +241,50 @@ nav a:hover{
     width: 30%;
     margin: 50px auto;
     padding: 10px;
-    border-radius: 12px 4px 12px 4px;
+    border-radius: 4px 12px 4px 12px;
     color: #fff;
+}
+/* ? Index page styles */
+#landing{
+    background-image: url(../images/pexels-fauxels-3183197.jpg);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#title{
+    width: 40%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px 12px 4px 12px;
+    padding: 40px;
+}
+#title h1{
+    font-size: 3rem;
+    width: 100%;
+    color: #fff;
+    margin: 0;
+}
+#title p{
+    font-size: 1.5rem;
+    color: #fff;
+}
+#buttons button{
+    height: 250px;
+    width: 250px;
+    border-radius: 8px 20px 8px 20px;
+    border: none;
+    outline: none;
+    background-color: #6371a5;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 250ms ease-in;
+    margin: 50px;
+}
+#buttons button:hover{
+    background-color: #3e53a0;
 }

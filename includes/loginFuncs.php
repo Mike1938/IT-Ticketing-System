@@ -76,7 +76,7 @@ function loginUser($conn, $uid, $pass, $url, $q, $userType){
         return true;
     }else{
         $conn->close();
-        header("location: {$url}?passErr= Incorrect password");
+        header("location: {$url}?pwdErr= Incorrect password");
         exit();
         return false;
     }

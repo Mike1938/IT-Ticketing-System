@@ -21,7 +21,7 @@
             <a href="http://localhost/finalProyect/index.php">Home</a>
             <a href="http://localhost/finalProyect/account/clientSignup.php">Sign Up</a>
         </nav>
-        <h1 class="loginHeader">Log In</h1>
+        <h1 class="loginHeader">Client Log In</h1>
         <form id="cliLogFrm" action="../includes/loginFuncs.php" method="POST">
             <div class="idContent">
                 <label for="id">ID <span class="error"><?php echo $userErr?></span></label>
