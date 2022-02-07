@@ -160,24 +160,15 @@ CREATE VIEW clientProducts
 CREATE VIEW tickets
     AS
         SELECT
-            ticket.id as "id",
+            ticket.id as "ticketId",
             ticket.userID as "userId",
             ticket.equipmentID as "equipId",
             ticket.problem as "problem",
-            ticket.ticketDate as "ticketDate",
-            CASE 
-                WHEN ticketStatus.employeeID = NULL THEN 'Not Assigned'
-            END AS 'emp',
-            CASE
-                WHEN ticketStatus.tStatus = NULL THEN 'Pending'
-                ELSE 'Active'
-            END AS tStatus,
-            CASE
-                WHEN ticketStatus.tStatus = 'Active' THEN 'In Progress'
-                WHEN ticketStatus.tStatus = 'Completed' THEN 'Finish'
-                ELSE 'Not Started'
-            END AS 'tEnd',
-            ticketStatus.solution as "Solution"
+            DATE_FORMAT(ticket.ticketDate, "%M-%d-%Y %H:%i") as "ticketPosted",
+            DATE_FORMAT(ticketStatus.tStart, "%M-%d-%Y %H:%i") as "startDate",
+            DATE_FORMAT(ticketStatus.tEnd, "%M-%d-%Y %H:%i") as "endDate",
+            ticketStatus.employeeID,
+            ticket.tStatus
             FROM ticket
             INNER JOIN ticketStatus
             on ticket.id = ticketStatus.ticketID;
