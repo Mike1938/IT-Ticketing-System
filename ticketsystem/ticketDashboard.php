@@ -132,7 +132,7 @@
                                         <p class = 'notFound'> No Active Tickets</p>
                                     </div>";
                             }
-
+                            $conn->close()
                         ?>
                     </div>
                 </div>

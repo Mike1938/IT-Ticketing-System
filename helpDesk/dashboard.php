@@ -59,16 +59,24 @@
                     exit();
                 }
             }
+
+            // ?this will verify if he click view more on the active ticket
+            if(isset($_GET['viewActive'])){
+                $ticketId = textCleanUp($_GET['viewActive']);
+                header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketId}");
+                exit();
+            }
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
             <a href="../includes/logout.php">Log Out</a>
         </nav>
-        <h1>Dashboard</h1>
+        
         <div id="shortcuts">
 
         </div>
         <section id="dashContent">
+            <h1 id="dashboardHead">Dashboard</h1>
             <div id="openTickets">
                 <p class="dashTitle">Open Tickets</p>
                 <?php
@@ -94,7 +102,7 @@
                                 <p class ='ticketInfo'><span>Status</span> {$row['tStatus']}</p>
                                 <div class='buttonSec'>
                                     <form method='GET'>
-                                        <button>View More</button>
+                                        <button value='{$row['ticketId']}' name='viewActive'>View More</button>
                                     </form>
                                 </div>
                                 

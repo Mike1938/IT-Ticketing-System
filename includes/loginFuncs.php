@@ -109,7 +109,7 @@ if(isset($_POST['empLogin'])){
             $modifiedUrl = "{$empUrl}?userErr={$results['idErr']}";
         }
         if($results['pwdErr']){
-            if($modifiedUrl != $clientUrl){
+            if($modifiedUrl != $empUrl){
                 $modifiedUrl = "{$modifiedUrl}&pwdErr={$results['pwdErr']}";
             }else{
                 $modifiedUrl = "{$empUrl}?pwdErr={$results['pwdErr']}";
