@@ -123,7 +123,9 @@
                                             <p>Posted:{$row['ticketDate']}</p>
                                             <p>Status:{$row['tStatus']}</p>
                                             <p class='desc'>Problem:{$row['problem']}</p>
-                                            <button value='{$row['id']}'>View</button>
+                                            <form method='GET'>
+                                                <button name='moreInfo' value='{$row['id']}'>View</button>
+                                            </form>
                                         </div>";
                                 }
                             }else{
@@ -132,6 +134,13 @@
                                         <p class = 'notFound'> No Active Tickets</p>
                                     </div>";
                             }
+                            // ?this will verify if he click view more on the active ticket
+                            if(isset($_GET['moreInfo'])){
+                                $ticketId = textCleanUp($_GET['moreInfo']);
+                                header("location: http://localhost/finalProyect/ticketsystem/ticketInformation.php?ticketNum={$ticketId}");
+                                exit();
+                            }
+
                             $conn->close()
                         ?>
                     </div>
