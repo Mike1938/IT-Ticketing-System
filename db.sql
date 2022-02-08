@@ -32,8 +32,9 @@ CREATE TABLE user(
     companyName VARCHAR(45) NOT NULL,
     email VARCHAR(100),
     joined TIMESTAMP NOT NULL DEFAULT NOW(),
-    pwd VARCHAR(100) NOT NULL,
-    phoneNumber VARCHAR(20)
+    pwd VARCHAR(100),
+    phoneNumber VARCHAR(20),
+    userName varchar(50)
 );
 
 -- Product TABLE

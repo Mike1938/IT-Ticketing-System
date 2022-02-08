@@ -9,25 +9,23 @@
     </head>
     <body>
         <?php
-        $fNameErr = $lNameErr = $compNameErr = $emailErr = $phoneErr = $pwdErr = "";
-        if(isset($_GET["fName"])){
-           $fNameErr = $_GET["fName"];
-        }
-        if(isset($_GET["lName"])){
-            $lNameErr = $_GET["lName"];
-        }
-        if(isset($_GET["compName"])){
-           $compNameErr = $_GET["compName"];
-        }
-        if(isset($_GET["email"])){
-           $emailErr = $_GET["email"];
-        }
-        if(isset($_GET["phone"])){
-           $phoneErr = $_GET["phone"];
-        }
-        if(isset($_GET["pwd"])){
-           $pwdErr = $_GET["pwd"];
-        }
+        // ? Waiting to recieve errors from form
+            $fNameErr = $lNameErr = $compNameErr = $emailErr = $phoneErr = $pwdErr = "";
+            if(isset($_GET["fName"])){
+            $fNameErr = $_GET["fName"];
+            }
+            if(isset($_GET["lName"])){
+                $lNameErr = $_GET["lName"];
+            }
+            if(isset($_GET["compName"])){
+            $compNameErr = $_GET["compName"];
+            }
+            if(isset($_GET["email"])){
+            $emailErr = $_GET["email"];
+            }
+            if(isset($_GET["phone"])){
+            $phoneErr = $_GET["phone"];
+            }
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
@@ -50,8 +48,6 @@
                     <input class="styleInput" id="email" name="email" type="email" placeholder="Email">
                     <label for="phone">Phone Number <span class="error"><?php echo $phoneErr?></span></label>
                     <input class="styleInput" id="phone" name="phone" type="text" placeholder="Phone Number">
-                    <label for="pwd">Password <span class="error"><?php echo $pwdErr?></span></label>
-                    <input class="styleInput" id="pwd" name="pwd" type="password" placeholder="Password">
                 </div>
                 <button name="clientSign">Register</button>
             </form>
