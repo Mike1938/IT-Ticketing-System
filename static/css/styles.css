@@ -427,6 +427,9 @@ nav a:hover{
 #commentArea{
     overflow-y: scroll;
     height: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
 }
 #commentfrm{
     display: flex;
@@ -459,6 +462,34 @@ nav a:hover{
 }
 #commentfrm button:hover{
     background-color: #205872;
+}
+/** right and left comments */
+.left{
+    background-color: #4f626b;
+    margin-right: auto;
+}
+.leftInfo{
+    padding-left: 15px;
+}
+.rightInfo, .leftInfo{
+    font-size: 0.8rem;
+    color: #153747;
+    margin-top: 0;
+}
+.left, .right{
+    padding: 15px;
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 5px;
+    width: 40%;
+}
+.right{
+    background-color: #164e68;
+    margin-left: auto;
+
+}
+.rightInfo{
+    margin-left: auto;
 }
 /*! Media Queries */
 @media (max-width:1292px){

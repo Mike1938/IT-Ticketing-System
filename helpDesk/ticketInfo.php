@@ -88,16 +88,77 @@
             }else{
                 header("location: http://localhost/finalProyect/helpDesk/dashboard.php");
             }
-            $conn->close()
+            // ?waiting for the post of the comments
+            // ?When post on comment it will insert comment to the database
+            if(isset($_POST['postComment'])){
+                $comment = $commentErr = "";
+                $validation = true;
+                if(empty($_POST['comment'])){
+                    $commentErr = "Comment cannot be left blank";
+                    $validation = false;
+                    header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}&commentErr={$commentErr}");
+                }else{
+                    $comment = textCleanUp($_POST['comment']);
+                }
+                // validates that the comment if not left blank
+                if($validation){
+                    $query = "INSERT INTO comments(ticketID, comment, employeeID) VALUES (?,?,?)";
+                    $stmt = mysqli_stmt_init($conn);
+                    if(!mysqli_stmt_prepare($stmt, $query)){
+                        header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}");
+                        exit();
+                    }
+                    mysqli_stmt_bind_param($stmt,'isi',$ticketNum, $comment, $uid);
+                    if(mysqli_stmt_execute($stmt)){
+                        header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}");
+                        exit();
+                    }
+                }
+            }
+           
         ?>
         <section id="comments">
             <p class='dashTitle'>Comments</p>
             <div id="commentArea">
-
+                <?php
+                    $commentErr = "";
+                    if(isset($_GET['commentErr'])){
+                        $commentErr = textCleanUp($_GET['commentErr']);
+                    }
+                     // ? query will search all the comments in this ticket
+                    $query = "SELECT comment, userID, employeeID, Date_FORMAT(commentDate, '%b-%d %H:%i') AS 'commentDate' FROM comments WHERE ticketID = ?";
+                    $stmt = mysqli_stmt_init($conn);
+                    if(!mysqli_stmt_prepare($stmt, $query)){
+                        header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}");
+                        exit();
+                    }
+                    mysqli_stmt_bind_param($stmt, 'i', $ticketNum);
+                    mysqli_stmt_execute($stmt);
+                    $data = mysqli_stmt_get_result($stmt);
+                    if($data->num_rows > 0){
+                        while($row = $data->fetch_assoc()){
+                            if(!empty($row["userID"])){
+                            echo "
+                                <p></p>
+                                <p class='left'>{$row['comment']}</p>
+                                <p class='leftInfo'>Sent: {$row['commentDate']}</p>
+                                ";
+                            }
+                            else{
+                                echo "
+                                    <p class='right'>{$row['comment']}</p>
+                                    <p class='rightInfo'>Sent: {$row['commentDate']}</p>
+                                ";
+                            }
+                        }
+                        echo "<p class='error'> {$commentErr}</p>";
+                    }
+                    $conn->close()
+                ?>
             </div>
             <form id="commentfrm" method="POST">
-                <input type="text" placeholder="Aa">
-                <button>Send</button>
+                <input name="comment" type="text" placeholder="Aa">
+                <button name="postComment">Send</button>
             </form>
         </section>
     </body>
