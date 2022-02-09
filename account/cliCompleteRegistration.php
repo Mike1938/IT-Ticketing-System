@@ -8,8 +8,12 @@
         <title>Complete Registration</title>
     </head>
     <body>
+        <nav>
+            <a href="http://localhost/finalProyect/index.php">Home</a>
+            <a href="http://localhost/finalProyect/account/clientLogin.php">Log In</a>
+        </nav>
         <?php
-            $fNameErr = $lNameErr = $compNameErr = $emailErr = $phoneErr = $pwdErr = "";
+            $fNameErr = $lNameErr = $compNameErr = $emailErr = $phoneErr = $pwdErr =  $accountErr = "";
             if(isset($_GET["fName"])){
                $fNameErr = $_GET["fName"];
             }
@@ -25,8 +29,11 @@
             if(isset($_GET["phone"])){
                $phoneErr = $_GET["phone"];
             }
+            if(isset($_GET['account'])){
+                $accountErr = $_GET['account'];
+            }
         ?>
-        <div>
+        <div id="findAccount">
             <p>Find account</p>
             <?php
                 $tempId = "";
@@ -34,14 +41,15 @@
                 if(isset($_SESSION['tempId'])){
                     $tempId = $_SESSION['tempId'];
                     echo "
-                        <p>ID was found</p>
-                        <p>ID: {$tempId}</p>
-                        <a href='../includes/logout.php'>Find Again</a>
+                        <div id='foundId'>
+                            <p>ID was found ID: {$tempId}</p>
+                            <a href='../includes/logout.php'><button>Find ID Again</button></a>
+                        </div>
                     ";
                 }
                 else{
                     echo"
-                        <form action='../includes/signupFuncs.php' method='POST'>
+                        <form id='regisFrm' action='../includes/signupFuncs.php' method='POST'>
                             <div id='cliRegLeft'>
                                 <label for='fName'>First Name <span class='error'>{$fNameErr}</span></label>
                                 <input class='styleInput' id='fName' name='fName' type='text' placeholder='First Name'>
@@ -62,11 +70,14 @@
                 }
             ?>
         </div>
-        <div>
-            <p>Create User Name and Password</p>
+        <div id="createUserPass">
+            <p class="dashTitle">Create User Name and Password</p>
+            <p class="error"><?php echo $accountErr?></p>
             <form method="POST" action="../includes/signupFuncs.php">
-                <input name="userName" type="text">
-                <input name='pwd' type="password">
+                <label for="userName">User Name</label>
+                <input id="userName" class='styleInput' name="userName" type="text" placeholder="User Name">
+                <label for="pwd">Password</label>
+                <input id="pwd" class='styleInput' name='pwd' type="password" placeholder="password">
                 <button name="createPassUser">Create</button>
             </form>
         </div>

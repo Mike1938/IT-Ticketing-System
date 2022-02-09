@@ -167,6 +167,7 @@ nav a:hover{
     border: none;
     outline: none;
     margin: 10px;
+    text-indent: 10px;
 }   
 #cliRegLeft{
     background-color: #5c6999;
@@ -243,6 +244,9 @@ nav a:hover{
     padding: 10px;
     border-radius: 4px 12px 4px 12px;
     color: #fff;
+}
+p.loginHeader{
+    font-size: 1.5rem;
 }
 /* ? Index page styles */
 #landing{
@@ -490,6 +494,70 @@ nav a:hover{
 }
 .rightInfo{
     margin-left: auto;
+}
+
+/* ?Complete client account page */
+#findAccount p{
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: #164e68;
+    color: #fff;
+    padding: 20px;
+    width: 40%;
+    margin: 30px auto;
+    border-radius: 12px;
+}
+#createUserPass{
+    width: 70%;
+    margin: 30px auto;
+    background-color: #C6C3B7;
+    border-radius: 12px;
+}
+#createUserPass p {
+    font-size: 1.4rem;
+}
+#createUserPass label{
+    display: block;
+    font-size: 1.1rem;
+    color: #164e68;
+}
+#createUserPass form{
+    padding: 20px 0 0 20px;
+}
+#createUserPass button{
+    display: block;
+    margin-left: auto;
+    height: 40px;
+    font-size: 1.1rem;
+    background-color: #156388;
+    color: #fff;
+    width: 25%;
+    border: none;
+    border-radius: 12px 0 12px 0;
+    transition: all ease-in 250ms;
+    cursor: pointer;
+}
+#createUserPass .error{
+    padding: 10px 10px 10px 20px;
+}
+#createUserPass button:hover{
+    background-color: #164e68;
+}
+#foundId{
+    text-align: center;
+}
+#foundId button{
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #156388;
+    color: #fff;
+    width: 10%;
+    cursor: pointer;
+    transition: all ease-in 250ms;
+}
+#foundId button:hover{
+    background-color: #153747;
 }
 /*! Media Queries */
 @media (max-width:1292px){

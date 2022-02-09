@@ -109,6 +109,8 @@
                             </div>
                             ";
                         }
+                    }else{
+                        echo "<p class= 'ticketInfo'>No Open Tickets</p>";
                     }
                 ?>
             </div>
@@ -142,6 +144,8 @@
                                                            
                             </div>";
                         }
+                    }else{
+                        echo "<p class= 'ticketInfo'>No Pending Tickets</p>";
                     }
                     $conn->close();
                 ?>

@@ -255,7 +255,7 @@ elseif(isset($_POST['findId'])){
             $row = $data->fetch_assoc();
             // ?This will verify if the account was already setUp
             if(isset($row['userName'])){
-                header("location: http://localhost/finalProyect/account/clientLogin.php?account=Account already completed");
+                header("location: http://localhost/finalProyect/account/clientLogin.php?account=Account already completed please sign in");
                 exit();
             }else{
                 session_start();
@@ -281,6 +281,7 @@ elseif(isset($_POST['findId'])){
         header("location: {$resultUrl}");
     }
 }
+// ? After finding id user will create password and user here it will verify the user and password and update the table and send to login page after.
 elseif(isset($_POST['createPassUser'])){
     session_start();
     $tempId = "";

@@ -9,12 +9,15 @@
     </head>
     <body>
         <?php
-            $userErr = $passErr = "";
+            $userErr = $passErr = $account ="";
             if(isset($_GET["userErr"])){
                 $userErr = $_GET["userErr"];
             }
             if(isset($_GET["pwdErr"])){
                 $passErr = $_GET["pwdErr"];
+            }
+            if(isset($_GET["account"])){
+                $account = $_GET["account"];
             }
         ?>
         <nav>
@@ -22,10 +25,15 @@
             <a href="http://localhost/finalProyect/account/clientSignup.php">Sign Up</a>
         </nav>
         <h1 class="loginHeader">Client Log In</h1>
-        <form id="cliLogFrm" action="../includes/loginFuncs.php" method="POST">
+        <?php
+            if(!empty($account)){
+                echo "<p class='loginHeader'>{$account}</p>";
+            }
+        ?>
+        <form id="cliLogFrm" action="../includes/loginFuncs.php" method="POST">    
             <div class="idContent">
-                <label for="id">ID <span class="error"><?php echo $userErr?></span></label>
-                <input class="styleInput" name="id" id="id" type="text" placeholder="ID">
+                <label for="id">User Name <span class="error"><?php echo $userErr?></span></label>
+                <input class="styleInput" name="id" id="id" type="text" placeholder="User Name">
             </div>
             <div class="passContent">
                 <label for="pwd">Password <span class="error"><?php echo $passErr?></span></label>

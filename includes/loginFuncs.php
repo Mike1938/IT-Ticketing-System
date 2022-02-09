@@ -122,7 +122,7 @@ if(isset($_POST['empLogin'])){
 elseif(isset($_POST['clientLogin'])){
     $modifiedUrl = 'http://localhost/finalProyect/account/clientLogin.php';
     $results = validation($_POST['id'], $_POST['pwd']);
-    $query = "SELECT id, fName, lName, pwd FROM user WHERE id = ?";
+    $query = "SELECT userName, id, fName, lName, pwd FROM user WHERE userName = ?";
     
     if($results['validation']){
         $confirmation = loginUser($conn,$results['id'], $results['pwd'], $modifiedUrl, $query, "cli");

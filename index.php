@@ -10,7 +10,7 @@
     <body>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
-            <a href="http://localhost/finalProyect/account/clientSignup.php">Sign Up</a>
+            <a href="http://localhost/finalProyect/account/cliCompleteRegistration.php">Sign Up</a>
         </nav>
         <section id="landing">
             <div id="title">
