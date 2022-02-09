@@ -115,8 +115,58 @@
                     }
                 }
             }
+            // ?This will submit the solution to ticket status
+            if(isset($_POST['subitSolution'])){
+                $solution = $solutionErr = "";
+                $status = textCleanUp($_POST['status']);
+                $validation = true;
+                if(empty($_POST['solutionText'])){
+                    $solutionErr = "Solution cannot be left blank";
+                }else{
+                    $solution = textCleanUp($_POST['solutionText']);
+                }
+                if($validation){
+                    $query = "UPDATE ticketStatus SET tEnd = NOW(), solution = ? WHERE ticketID = ?";
+                    $qStatus = "UPDATE ticket SET tStatus = ? WHERE id = ?";
+                    // ?This will update solution and the time ended the ticket
+                    $stmt = mysqli_stmt_init($conn);
+                    if(!mysqli_stmt_prepare($stmt,$query)){
+                        header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}");
+                        exit();
+                    }
+                    mysqli_stmt_bind_param($stmt,'si', $solution, $ticketNum);
+                    $qFirstResult = mysqli_stmt_execute($stmt);
+
+                    // ? This will change status of ticket table
+                    $stmtTwo = mysqli_stmt_init($conn);
+                    if(!mysqli_stmt_prepare($stmtTwo, $qStatus)){
+                        header("location: http://localhost/finalProyect/helpDesk/ticketInfo.php?ticketNum={$ticketNum}");
+                        exit();
+                    }
+                    mysqli_stmt_bind_param($stmtTwo, 'si', $status, $ticketNum);
+                    $qSecondResult = mysqli_stmt_execute($stmtTwo);
+
+                    if($qFirstResult && $qSecondResult){
+                        header("location: http://localhost/finalProyect/helpDesk/dashboard.php");
+                        exit();
+                    }
+                    
+
+                }
+            }
            
         ?>
+        <section id="solution" class="infoTickCards">
+            <p class="dashTitle">Complete Ticket</p>
+            <form id="solutionFrm" method="POST">
+                <select class="styleInput" name="status" id="status">
+                    <option value="Complete">Complete</option>
+                    <option value="Abandon">Abandon</option>
+                </select>
+                <textarea  name="solutionText" id="probBlock" cols="55" rows="5"></textarea>
+                <button name="subitSolution">Submit</button>
+            </form>
+        </section>
         <section id="comments">
             <p class='dashTitle'>Comments</p>
             <div id="commentArea">

@@ -701,6 +701,23 @@ p.loginHeader{
 #invoiceSect .nameFound{
     display: block;
 }
+#solution{
+    width: 80%;
+    margin: 30px auto;
+    padding-bottom: 20px;
+}
+#solution textarea{
+    border-radius: 10px;
+    border: none;
+    text-indent: 20px;
+}
+#solution .styleInput{
+    display: block;
+    margin-left: 0;
+}
+#solutionFrm{
+    margin: 20px;
+}
 /*! Media Queries */
 @media (max-width:1292px){
     .penCardHeader{
