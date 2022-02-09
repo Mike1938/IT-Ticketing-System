@@ -22,7 +22,7 @@
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
-            <a href="http://localhost/finalProyect/account/clientSignup.php">Sign Up</a>
+            <a href="http://localhost/finalProyect/account/cliCompleteRegistration.php">Sign Up</a>
         </nav>
         <h1 class="loginHeader">Client Log In</h1>
         <?php

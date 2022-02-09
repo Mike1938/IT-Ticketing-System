@@ -9,6 +9,21 @@
     </head>
     <body>
         <?php
+            // ?Verifies the employee if log in if not its send to the employee login page
+            session_start();
+            $uid = $fName = "";
+            if(isset($_SESSION['empId'])){
+                $fname = htmlspecialchars($_SESSION['fName']);
+                $uid = htmlspecialchars($_SESSION['empId']);
+            }
+            else{
+                header("location: http://localhost/finalProyect/account/empLogin.php");
+                exit();
+            }
+            require_once "../dbConection.php";
+            $conn = new mysqli($hn,$un,$pw, $db);
+            if($conn->connect_error) die("There was a fatal error");
+      
         // ? Waiting to recieve errors from form
             $fNameErr = $lNameErr = $compNameErr = $emailErr = $phoneErr = $pwdErr = "";
             if(isset($_GET["fName"])){
@@ -29,7 +44,8 @@
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
-            <a href="http://localhost/finalProyect/account/clientLogin.php">Log In</a>
+            <a href="http://localhost/finalProyect/helpDesk/dashboard.php">Dashboard</a>
+            <a href="../includes/logout.php">Log Out</a>
         </nav>
         
         <section class="formSect">

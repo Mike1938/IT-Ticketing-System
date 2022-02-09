@@ -22,6 +22,7 @@
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
+            <a href="http://localhost/finalProyect/ticketSystem/ticketDashboard.php">Dashboard</a>
             <a href="../includes/logout.php">Log Out</a>
         </nav>
         <section id="infoContent">

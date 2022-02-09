@@ -69,14 +69,19 @@
         ?>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
+            <a href="http://localhost/finalProyect/helpDesk/dashboard.php">Dashboard</a>
             <a href="../includes/logout.php">Log Out</a>
         </nav>
-        
-        <div id="shortcuts">
-
-        </div>
         <section id="dashContent">
-            <h1 id="dashboardHead">Dashboard</h1>
+            <div id="dashBoardHeadCont">
+                <h1 id="dashboardHead">Dashboard</h1>
+            </div>
+            <div id="shortcuts">
+                <p class="shortTitle dashTitle">Shortcuts</p>
+                <a href="http://localhost/finalProyect/account/clientSignup.php"><button class="bigButtons">Client Registration</button></a>
+                <a href="http://localhost/finalProyect/invoice/createInvoice.php"><button class="bigButtons">Invoice</button></a>
+                <a href="http://localhost/finalProyect/account/empSignup.php"><button class="bigButtons">Employee Registration</button></a>
+            </div>
             <div id="openTickets">
                 <p class="dashTitle">Open Tickets</p>
                 <?php

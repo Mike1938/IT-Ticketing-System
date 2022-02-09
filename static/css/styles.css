@@ -295,12 +295,16 @@ p.loginHeader{
 
 /* ? employee dashboard styles */
 #dashboardHead{
-    width: 50%;
+    width: 40%;
     background-color: #6371a5;
     color: #fff;
-    text-align: center;
     padding: 15px;
     border-radius: 12px;
+    font-size: 2.2rem;
+}
+#dashBoardHeadCont{
+    width: 80%;
+
 }
 #dashContent{
     display: flex;
@@ -310,7 +314,7 @@ p.loginHeader{
     margin: 30px auto;
 }
 .dashTitle{
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     background-color: #5c6999;
     color: #fff;
     width: 30%;
@@ -388,6 +392,33 @@ p.loginHeader{
     font-size: 1.2rem;
     color: #156388;
     font-weight: 600;
+}
+#shortcuts{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 80%;
+    justify-items: center;
+    background-color: #C6C3B7;
+    border-radius: 12px;
+}
+.shortTitle{
+    grid-column: 1/4;
+    justify-self: start;
+}
+.bigButtons{
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+    background-color: #3580a3;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 20px;
+    cursor: pointer;
+    transition: all 250ms ease-in;
+}
+.bigButtons:hover{
+    background-color: #164e68;
 }
 /* ?Ticket page styles */
 #ticketPageHead{
@@ -558,6 +589,117 @@ p.loginHeader{
 }
 #foundId button:hover{
     background-color: #153747;
+}
+/* ?invoice styles */
+
+#invoiceContent{
+    width: 80%;
+    margin: 20px auto;
+}
+#findUser{
+    background-color: #C6C3B7;
+    border-radius: 12px;
+    height: 400px;
+    padding: 0 20px 20px 0;
+    overflow-y: scroll;
+
+}
+.selectedUser{
+    margin: 10px;
+    font-size: 1.4rem;
+}
+#selectAgainFrm button{
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    width: 20%;
+    margin: 10px;
+    background-color: #156388;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 250ms ease-in;
+}
+#selectAgainFrm button:hover{
+    background-color: #153747;
+}
+#findUser label{
+ display: block;
+ font-size: 1.3rem;
+ color: #fff;
+ background-color: #6371a5;
+ width: 25%;
+ padding: 15px;
+ border-radius: 12px 0 12px 0;
+}
+#findPhoneFrm button, #invoiceSect button{
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    width: 15%;
+    background-color: #156388;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 250ms ease-in;
+}
+#findPhoneFrm button:hover, #invoiceSect button:hover{
+    background-color: #153747;
+}
+.notFound{
+    margin: 10px;
+    font-size: 2rem;
+}
+#SearchResults{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+#SearchResults p span{
+    display: block;
+    font-size: 1.3rem;
+    color: #164e68;
+}
+.findInfoCards{
+    background-color: #fff;
+    border-radius: 12px;
+    margin: 40px;
+}
+.findInfoCards form{
+    width: 25%;
+    margin-left: auto;
+}
+.findInfoCards button{
+    width: 100%;
+    height: 40px;
+    background-color: #156388;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px 0 12px 0;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: all 250ms ease-in;
+}
+.findInfoCards button:hover{
+    background-color: #153747;
+}
+.nameFound{
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #6371a5;
+    width: 25%;
+    padding: 15px;
+    border-radius: 12px 0 12px 0;
+    margin: 0;
+}
+
+#invoiceSect{
+    background-color: #C6C3B7;
+    margin-top: 50px;
+    border-radius: 12px;
+}
+#invoiceSect .nameFound{
+    display: block;
 }
 /*! Media Queries */
 @media (max-width:1292px){

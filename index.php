@@ -10,7 +10,21 @@
     <body>
         <nav>
             <a href="http://localhost/finalProyect/index.php">Home</a>
-            <a href="http://localhost/finalProyect/account/cliCompleteRegistration.php">Sign Up</a>
+            <?php
+                session_start();
+                if(isset($_SESSION['empId'])){
+                    echo "<a href='http://localhost/finalProyect/helpDesk/dashboard.php'>Dashboard</a>";
+                    echo "<a href='../includes/logout.php'>Log Out</a>";
+                }
+                elseif(isset($_SESSION['cliId'])){
+                    echo "<a href='http://localhost/finalProyect/ticketSystem/ticketDashboard.php'>Dashboard</a>";
+                    echo "<a href='../includes/logout.php'>Log Out</a>";
+                }
+                else{
+                    echo"<a href='http://localhost/finalProyect/account/cliCompleteRegistration.php'>Client Sign Up</a>";
+                }
+            ?>
+            
         </nav>
         <section id="landing">
             <div id="title">
