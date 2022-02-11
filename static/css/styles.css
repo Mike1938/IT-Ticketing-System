@@ -259,6 +259,9 @@ p.loginHeader{
     align-items: center;
     justify-content: center;
 }
+.signupAtag{
+    display: flex;
+}
 #title{
     width: 40%;
     text-align: center;

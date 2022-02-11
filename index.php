@@ -14,14 +14,21 @@
                 session_start();
                 if(isset($_SESSION['empId'])){
                     echo "<a href='http://localhost/finalProyect/helpDesk/dashboard.php'>Dashboard</a>";
-                    echo "<a href='./includes/loginFuncs.php'>Log Out</a>";
+                    echo "<a href='./includes/logout.php'>Log Out</a>";
                 }
                 elseif(isset($_SESSION['cliId'])){
                     echo "<a href='http://localhost/finalProyect/ticketSystem/ticketDashboard.php'>Dashboard</a>";
-                    echo "<a href='./includes/loginFuncs.php'>Log Out</a>";
+                    echo "<a href='./includes/logout.php'>Log Out</a>";
                 }
                 else{
-                    echo"<a href='http://localhost/finalProyect/account/cliCompleteRegistration.php'>Client Sign Up</a>";
+                    // ?added employee registration so that the professor can quickly create a employee account. but this is supposed to be hidden in a intranet
+                    echo"
+                        <div class ='signupAtag'>
+                            <a href='http://localhost/finalProyect/account/cliCompleteRegistration.php'>Complete Client Sign Up</a>
+                            <a href='http://localhost/finalProyect/account/empSignup.php'>Employee Sign Up</a>
+                        </div>
+                    ";
+                    // echo"<a href='http://localhost/finalProyect/account/cliCompleteRegistration.php'>Client Sign Up</a>";
                 }
             ?>
         </nav>

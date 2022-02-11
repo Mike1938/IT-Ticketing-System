@@ -124,11 +124,9 @@
                                             <p>Posted:{$row['ticketDate']}</p>
                                             <p>Status:{$row['tStatus']}</p>
                                             <p class='desc'>Problem:{$row['problem']}</p>
-                                            <form method='GET'>
-                                                <button name='moreInfo' value='{$row['id']}'>View</button>
-                                            </form>
                                         </div>";
                                 }
+                                // TODO Work on the view more button on ticket
                             }else{
                                 echo "
                                     <div class='ticketCard'>

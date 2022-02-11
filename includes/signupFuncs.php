@@ -169,7 +169,7 @@ if(isset($_POST['clientSign'])){
         //* Creating the query to insert to the database
         $query = $conn->prepare("INSERT INTO user(fName, lName, companyName, email, phoneNumber) Values(?,?,?,?,?)");
         $query->bind_param('sssss',$valResults['results']['fName'], $valResults['results']['lName'], $compName, $valResults['results']['email'], $valResults['results']['phone']);
-        $urlLocation = "http://localhost/finalProyect/account/clientLogin.php";
+        $urlLocation = "http://localhost/finalProyect/helpDesk/dashboard.php";
     }else{
         $url = "http://localhost/finalProyect/account/clientSignup.php";
         $resultUrl = sendErr($valResults, $url);

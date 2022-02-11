@@ -11,7 +11,7 @@
         <?php
             // ?Verifies the employee if log in if not its send to the employee login page
             session_start();
-            $uid = $fName = "";
+            $uid = $fName = $user = "";
             if(isset($_SESSION['empId'])){
                 $fname = htmlspecialchars($_SESSION['fName']);
                 $uid = htmlspecialchars($_SESSION['empId']);
@@ -19,6 +19,9 @@
             else{
                 header("location: http://localhost/finalProyect/account/empLogin.php");
                 exit();
+            }
+            if(isset($_GET['userId'])){
+                $user = textCleanUp($_GET['userId']);
             }
             require_once "../dbConection.php";
             $conn = new mysqli($hn,$un,$pw, $db);
@@ -47,8 +50,7 @@
             <div id="findUser">
                 <?php
                     // ?It will verify if the user already selected to display something else
-                    if(isset($_SESSION['selectedUser'])){
-                        $user = textCleanUp($_SESSION['selectedUser']);
+                    if(!empty($user)){
                         echo"
                         <div id ='userFoundCont'>
                             <p class= 'nameFound'>User Id: {$user}</p>
@@ -119,16 +121,15 @@
                             }
 
                         }
-                        // ?this will create a session for the selected user
+                        // ?this will put user id in url to be taken by another query later
                         if(isset($_GET['selectUser'])){
                             $selectUser = textCleanUp($_GET['selectUser']);
-                            $_SESSION['selectedUser'] = $selectUser;
-                            header("location: http://localhost/finalProyect/invoice/createInvoice.php?user=User Selected");
+                            header("location: http://localhost/finalProyect/invoice/createInvoice.php?user=User Selected&userId={$selectUser}");
                             exit();
                         }
-                        // ?This section will complete the invoice it will insert to invoice and invoice details information about the transaction
+                        // ?This section will complete the invoice it will insert to invoice and invoice details information about the transaction  
                         if(isset($_POST['completeInvoice'])){
-                            if(!empty($user)){
+                            if($user){
                                 $lastID = "";
                                 $product = textCleanUp($_POST['products']);
                                 $qInvoice = "INSERT INTO invoice(userID, employeeID) VALUES (?,?)";
@@ -150,6 +151,7 @@
                                 }
                                 mysqli_stmt_bind_param($stmtTwo,'ii', $lastID, $product);
                                 mysqli_stmt_execute($stmtTwo);
+                                header("location: http://localhost/finalProyect/invoice/createInvoice.php?complete=Invoice Completed");
                             }
                             else{
                                 header("location: http://localhost/finalProyect/invoice/createInvoice.php?user=Please Select User");
@@ -159,7 +161,6 @@
                         }
                         // ?This section will clear the session for the selected user
                         if(isset($_POST['changeUser'])){
-                            unset($_SESSION['selectedUser']);
                             header("location: http://localhost/finalProyect/invoice/createInvoice.php");
                             exit();
                         }
